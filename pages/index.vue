@@ -6,18 +6,23 @@
       <div class="lg:col-span-1 block lg:block" :class="{ 'hidden': store.selectedUser != null }">
         <SearchFilters />
         <TagManager class="my-4" />
-        <UserList @select-user="handleUserSelect" />
+        <ClientOnly>
+          <!-- Prevent hydration errors -->
+          <UserList @select-user="handleUserSelect" />
+        </ClientOnly>
       </div>
 
       <!-- User List -->
-      <div class="lg:col-span-2 lg:block" :class="{ 'hidden': store.selectedUser == null }">
-        <div v-if="store.selectedUser">
-          <UserDetail :user="store.selectedUser" @close="store.selectedUser = null" />
+      <ClientOnly>
+        <div class="lg:col-span-2 lg:block" :class="{ 'hidden': store.selectedUser == null }">
+          <div v-if="store.selectedUser">
+            <UserDetail :user="store.selectedUser" @close="store.selectedUser = null" />
+          </div>
+          <div v-else>
+            <UserDetailsEmpty />
+          </div>
         </div>
-        <div v-else>
-          <UserDetailsEmpty />
-        </div>
-      </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

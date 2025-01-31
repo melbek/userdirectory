@@ -1,24 +1,58 @@
 import { defineStore } from 'pinia'
 import type { User } from '@/types/user'
 
+/**
+ * Pinia store for managing user data, including user list, filters, tags, and persistence.
+ * Provides functionality for user management, filtering, tagging, and state persistence.
+ *
+ * @example
+ * ```typescript
+ * const store = useUserStore();
+ * 
+ * // Fetch users
+ * await store.fetchUsers();
+ * 
+ * // Apply filters
+ * store.filters.searchText = 'John';
+ * store.filters.favoritesOnly = true;
+ * 
+ * // Work with filtered users
+ * const filteredUsers = store.filteredUsers;
+ * ```
+ */
 export const useUserStore = defineStore('users', {
+  /**
+   * Store state definition.
+   * Initializes all required state properties with their default values.
+   */
   state: () => ({
+    /** Currently selected user for detailed view */
     users: [] as User[],
+    /** Currently selected user for detailed view */
     selectedUser: null as User | null,
+    /** Active filters for user list */
     filters: {
       searchText: '',
       gender: null as string | null,
       favoritesOnly: false,
     },
+    /** Available tags for user categorization */
     tags: [] as string[],
+    /** Current page number for pagination */
     page: 1,
+    /** Loading state indicator */
     loading: false,
+    /** Error message if any operation fails */
     error: null as string | null,
-    hydrated: false, // New flag to indicate when initialization is complete
+    /** Flag indicating if store has been initialized from storage */
+    hydrated: false,
   }),
 
   actions: {
-    // Persist current state in localStorage
+    /**
+     * Persists current state to localStorage.
+     * Saves filters, users, tags, and selected user.
+     */
     persistState() {
       try {
         const stateToSave = {
@@ -34,26 +68,35 @@ export const useUserStore = defineStore('users', {
       }
     },
 
-    // Initialize store from localStorage
+    /**
+     * Initializes store state from localStorage.
+     * Restores filters, tags, and selected user if available.
+     */
     initializeFromStorage() {
       const { loadState } = useLocalStorage()
       const savedState = loadState('userPreferences')
       
       if (savedState) {
+        // Restore tags and filters
+        this.users = savedState.users || [];
         this.tags = savedState.tags || []
         if (savedState.filters) {
           this.filters.searchText = savedState.filters.searchText;
           this.filters.gender = savedState.filters.gender;
           this.filters.favoritesOnly = savedState.filters.favoritesOnly;
         }
+        // Restore selected user if it exists in current users
         if (savedState.selectedUserId) {
           this.selectedUser = this.users.find(u => u.id === savedState.selectedUserId) || null;
         }
-        //this.users = savedState.users || []
       }
       this.hydrated = true;
     },
 
+    /**
+     * Fetches next page of users and merges with existing list.
+     * Maintains favorite status and tags across fetches.
+     */
     async fetchUsers() {
       if (this.loading) return
 
@@ -68,6 +111,7 @@ export const useUserStore = defineStore('users', {
         const { loadState } = useLocalStorage()
         const savedState = loadState('userPreferences')
         
+        // Process new users and restore their saved state
         const processedUsers = newUsers.map(user => {
           const savedUser = savedState?.users?.find((u: User) => u.id === user.id)
           return {
@@ -88,11 +132,18 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Sets the currently selected user for detailed view.
+     * @param {User} user - The user to select
+     */
     setSelectedUser(user: User) {
       this.selectedUser = user;
     },
 
-    // Updated action to persist changes
+    /**
+     * Toggles favorite status for a user and persists the change.
+     * @param {string} userId - ID of the user to toggle
+     */
     toggleFavorite(userId: string) {
       const user = this.users.find(u => u.id === userId)
       if (user) {
@@ -101,6 +152,11 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Toggles a tag for a specific user.
+     * @param {string} userId - ID of the user
+     * @param {string} tag - Tag to toggle
+     */
     toggleUserTag(userId: string, tag: string) {
       const user = this.users.find(u => u.id === userId);
       if (user) {
@@ -117,7 +173,11 @@ export const useUserStore = defineStore('users', {
       }
     },
 
-    // Add tag to a user
+    /**
+     * Adds a tag to a user and to global tags if new.
+     * @param {string} userId - ID of the user
+     * @param {string} tag - Tag to add
+     */
     addTagToUser(userId: string, tag: string) {
       const user = this.users.find(u => u.id === userId);
       if (user && !user.tags.includes(tag)) {
@@ -132,6 +192,11 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Removes a tag from a specific user.
+     * @param {string} userId - ID of the user
+     * @param {string} tag - Tag to remove
+     */
     removeTagFromUser(userId: string, tag: string) {
       const user = this.users.find(u => u.id === userId);
       if (user) {
@@ -144,6 +209,10 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Adds a new tag to the global tag list.
+     * @param {string} tag - Tag to add
+     */
     addTag(tag: string) {
       if (!this.tags.includes(tag)) {
         this.tags.push(tag);
@@ -151,6 +220,10 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Removes a tag from the global list and all users.
+     * @param {string} tag - Tag to remove
+     */
     removeTag(tag: string) {
       const index = this.tags.indexOf(tag);
       if (index > -1) {
@@ -163,6 +236,11 @@ export const useUserStore = defineStore('users', {
       }
     },
 
+    /**
+     * Updates a tag name globally and in all users.
+     * @param {string} oldTag - Current tag name
+     * @param {string} newTag - New tag name
+     */
     updateTag(oldTag: string, newTag: string) {
       const index = this.tags.indexOf(oldTag);
       if (index > -1) {
@@ -181,6 +259,11 @@ export const useUserStore = defineStore('users', {
   },
 
   getters: {
+    /**
+     * Returns filtered users based on current filters.
+     * Applies text search, gender filter, and favorites filter.
+     * @returns {User[]} Filtered list of users
+     */
     filteredUsers(): User[] {
       return this.users.filter(user => {
         const matchesSearch = this.filters.searchText
@@ -201,6 +284,10 @@ export const useUserStore = defineStore('users', {
       });
     },
 
+    /**
+     * Returns unique list of all available tags.
+     * @returns {string[]} Array of unique tags
+     */
     allTags(): string[] {
       return [...new Set(this.tags)];
     }
