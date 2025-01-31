@@ -3,12 +3,12 @@
       <h3 class="text-lg font-semibold mb-4">Tags</h3>
       
       <!-- Add new tag -->
-      <div class="flex space-x-2 mb-4">
+      <div class="flex mb-4">
         <input
           v-model="newTag"
           type="text"
           placeholder="New tag..."
-          class="flex-1 px-3 py-2 border rounded-lg"
+          class="flex-1 px-3 py-2 mr-2 border rounded-lg"
           @keyup.enter="addTag"
         />
         <button
@@ -36,17 +36,17 @@
             @keyup.esc="cancelEdit"
           />
           
-          <div class="flex space-x-2">
+          <div class="flex">
             <button
               v-if="editingTag !== tag"
               @click="startEdit(tag)"
-              class="text-blue-500 hover:text-blue-600 cursor-pointer">
+              class="text-blue-500 mr-2 hover:text-blue-600 cursor-pointer">
               Edit
             </button>
             <button
               v-else
               @click="updateTag(tag)"
-              class="text-green-500 hover:text-green-600 cursor-pointer">
+              class="text-green-500 mr-2 hover:text-green-600 cursor-pointer">
               Save
             </button>
             <button

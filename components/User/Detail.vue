@@ -2,11 +2,11 @@
   <div class="bg-white rounded-lg shadow p-6">
     <!-- Contact Header -->
     <div class="flex justify-between items-start mb-6">
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center">
         <img
           :src="user.picture"
           :alt="`${user.firstName} ${user.lastName}`"
-          class="w-24 h-24 rounded-full object-cover"
+          class="mr-4 w-24 h-24 rounded-full object-cover"
         />
         <div>
           <h2 class="text-2xl font-bold">

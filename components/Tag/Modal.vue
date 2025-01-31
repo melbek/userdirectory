@@ -17,12 +17,12 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Add New Tag
         </label>
-        <div class="flex space-x-2">
+        <div class="flex">
           <input
             v-model="newTag"
             type="text"
             placeholder="Enter new tag..."
-            class="flex-1 px-3 py-2 border rounded-lg"
+            class="flex-1 px-3 py-2 mr-2 border rounded-lg"
             @keyup.enter="handleAddTag"
           />
           <button
@@ -62,10 +62,10 @@
         </div>
       </div>
 
-      <div class="mt-6 flex justify-end space-x-2">
+      <div class="mt-6 flex justify-end">
         <button
           @click="$emit('close')"
-          class="px-4 py-2 border rounded-lg hover:bg-gray-50"
+          class="px-4 py-2 mr-2 border rounded-lg hover:bg-gray-50"
         >
           Close
         </button>

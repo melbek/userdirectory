@@ -21,11 +21,11 @@
         :key="user.id"
         class="mb-4 bg-white rounded-lg shadow p-4 hover:bg-gray-50 cursor-pointer transition-colors"
         @click="$emit('select-user', user)">
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center">
           <img
             :src="user.thumbnail"
             :alt="`${user.firstName} ${user.lastName}`"
-            class="w-12 h-12 rounded-full object-cover"
+            class="w-12 h-12 mr-4 rounded-full object-cover"
           />
           <div class="flex-1">
             <div class="flex items-center justify-between">
