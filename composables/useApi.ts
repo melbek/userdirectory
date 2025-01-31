@@ -4,7 +4,7 @@ export const useApi = () => {
   const baseUrl = 'https://randomuser.me/api'
 
   const capitalizeFirst = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
   const transformUser = (userData: any): User => {
@@ -19,8 +19,8 @@ export const useApi = () => {
       location: {
         country: userData.location.country,
         city: userData.location.city,
-        street: `${userData.location.street.number} ${userData.location.street.name}`,
-        postcode: userData.location.postcode.toString(),
+        street: `${userData.location.street.number ?? ''} ${userData.location.street.name ?? ''}`,
+        postcode: userData.location.postcode?.toString() ?? '',
       },
       age: userData.dob.age,
       phone: userData.phone,
@@ -33,7 +33,7 @@ export const useApi = () => {
     try {
       const response = await fetch(`${baseUrl}/?page=${page}&results=${limit}&seed=nuxt-app&exc=login,registered,nat`)
       const data = await response.json()
-      console.log('Calling API');
+      //console.log('Calling API');
       return data.results.map(transformUser)
     } catch (error) {
       console.error('Error fetching users:', error)

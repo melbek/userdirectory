@@ -1,5 +1,6 @@
 <template>
   <div class="bg-white rounded-lg shadow p-6">
+    <!-- Contact Header -->
     <div class="flex justify-between items-start mb-6">
       <div class="flex items-center space-x-4">
         <img
@@ -9,19 +10,28 @@
         />
         <div>
           <h2 class="text-2xl font-bold">
-            {{ capitalizeFirst(user.firstName) }} {{ capitalizeFirst(user.lastName) }}
+            {{ user.firstName }} {{ user.lastName }}
           </h2>
           <p class="text-gray-600">ID: {{ user.id }}</p>
         </div>
       </div>
       
-      <button
-        @click="$emit('close')"
-        class="text-gray-500 hover:text-gray-700">
-        ✕
-      </button>
+      <div class="grid grid-cols-1 gap-3">
+        <button
+          @click="$emit('close')"
+          class="text-gray-500 hover:text-gray-700">
+          ✕
+        </button>
+        <button
+          @click.stop="store.toggleFavorite(user.id)"
+          class="text-yellow-500 hover:text-yellow-600 text-2xl">
+          <span v-if="user.isFavorite">★</span>
+          <span v-else>☆</span>
+        </button>
+      </div>
     </div>
 
+    <!-- Contact Details -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <h3 class="font-semibold mb-2">Contact Information</h3>
@@ -42,6 +52,7 @@
       </div>
     </div>
 
+    <!-- Tag List -->
     <div class="mt-6">
       <h3 class="font-semibold mb-2">Tags</h3>
       <div class="flex flex-wrap gap-2">
@@ -88,12 +99,4 @@ const emit = defineEmits<{
 
 const store = useUserStore();
 const showTagModal = ref(false);
-
-const capitalizeFirst = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-const handleAddTag = (tag: string) => {
-  // Implementation for adding tag to user
-};
 </script>

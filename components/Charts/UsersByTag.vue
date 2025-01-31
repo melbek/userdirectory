@@ -1,6 +1,9 @@
 <template>
   <div class="h-[300px]">
-    <Bar :data="chartData" :options="chartOptions" />
+    <Bar v-if="store.tags.length > 0" :data="chartData" :options="chartOptions" />
+    <div v-if="store.tags.length == 0" class="flex justify-center items-center h-full">
+      No Tags
+    </div>
   </div>
 </template>
 

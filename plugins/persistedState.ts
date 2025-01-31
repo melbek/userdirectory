@@ -22,4 +22,11 @@ export default defineNuxtPlugin(async () => {
     },
     { deep: true }
   );
+
+  // Save state before unload
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', () => {
+      store.persistState();
+    });
+  }
 })

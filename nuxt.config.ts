@@ -16,4 +16,13 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/persistedState.ts'
   ],
+  app: {
+    head: {
+      meta: [
+        // <meta name="viewport" content="width=device-width, initial-scale=1">
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+      ],
+    }
+  }
+  
 })

@@ -24,9 +24,10 @@
         <input
           v-model="store.filters.favoritesOnly"
           type="checkbox"
+          id="favoritesOnly"
           class="mr-2"
         />
-        <label>Show favorites only</label>
+        <label for="favoritesOnly">Show favorites only</label>
       </div>
     </div>
   </div>
