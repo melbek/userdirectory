@@ -15,11 +15,11 @@
     </div>
     
     <!-- User List Container -->
-    <div class="space-y-4">
+    <div>
       <div
         v-for="user in store.filteredUsers"
         :key="user.id"
-        class="bg-white rounded-lg shadow p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+        class="mb-4 bg-white rounded-lg shadow p-4 hover:bg-gray-50 cursor-pointer transition-colors"
         @click="$emit('select-user', user)">
         <div class="flex items-center space-x-4">
           <img
@@ -92,7 +92,7 @@ const handleScroll = () => {
   const scrollPosition = window.innerHeight + window.scrollY;
   const bottomPosition = document.documentElement.offsetHeight;
   if (scrollPosition + 200 >= bottomPosition) {
-    //store.fetchUsers();
+    store.fetchUsers();
   }
 };
 

@@ -40,11 +40,11 @@
         <label class="block text-sm font-medium text-gray-700 mb-2">
           Available Tags
         </label>
-        <div class="space-y-2 max-h-60 overflow-y-auto">
+        <div class="max-h-60 overflow-y-auto">
           <div
             v-for="tag in availableTags"
             :key="tag"
-            class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg"
+            class="flex items-center justify-between p-2 mb-2 hover:bg-gray-50 rounded-lg"
           >
             <div class="flex items-center">
               <input

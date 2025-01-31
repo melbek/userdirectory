@@ -7,8 +7,8 @@
       class="w-full px-4 py-2 border rounded-lg mb-4"
     />
     
-    <div class="space-y-4">
-      <div>
+    <div>
+      <div class="mb-4">
         <label class="block mb-2">Gender</label>
         <select
           v-model="store.filters.gender"

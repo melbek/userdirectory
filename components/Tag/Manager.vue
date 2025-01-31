@@ -21,11 +21,11 @@
       </div>
   
       <!-- Tag list -->
-      <div v-if="store.hydrated" class="space-y-2">
+      <div v-if="store.hydrated">
         <div
           v-for="tag in store.tags"
           :key="tag"
-          class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+          class="flex items-center justify-between p-2 bg-gray-50 rounded-lg mb-2">
           <span v-if="editingTag !== tag">{{ tag }}</span>
           <input
             v-else

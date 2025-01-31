@@ -35,18 +35,18 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <h3 class="font-semibold mb-2">Contact Information</h3>
-        <div class="space-y-2">
-          <p><span class="text-gray-600">Email:</span> {{ user.email }}</p>
+        <div>
+          <p class="mb-2"><span class="text-gray-600">Email:</span> {{ user.email }}</p>
           <p><span class="text-gray-600">Phone:</span> {{ user.phone }}</p>
         </div>
       </div>
 
       <div>
         <h3 class="font-semibold mb-2">Location</h3>
-        <div class="space-y-2">
-          <p><span class="text-gray-600">Country:</span> {{ user.location.country }}</p>
-          <p><span class="text-gray-600">City:</span> {{ user.location.city }}</p>
-          <p><span class="text-gray-600">Street:</span> {{ user.location.street }}</p>
+        <div>
+          <p class="mb-2"><span class="text-gray-600">Country:</span> {{ user.location.country }}</p>
+          <p class="mb-2"><span class="text-gray-600">City:</span> {{ user.location.city }}</p>
+          <p class="mb-2"><span class="text-gray-600">Street:</span> {{ user.location.street }}</p>
           <p><span class="text-gray-600">Postcode:</span> {{ user.location.postcode }}</p>
         </div>
       </div>
